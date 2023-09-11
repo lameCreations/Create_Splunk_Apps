@@ -28,16 +28,36 @@ Public Class Form1
         CreateGUISettings(tempDirectory)
         CreateNonGuiSettings(tempDirectory)
 
-        CreateClusterMaster(tempDirectory)
-        CreateClusterSlave(tempDirectory)
 
-        CreateDistSearchApp(tempDirectory)
+
+        If chkSetUpClusterIndexing.Checked = True Then
+            CreateClusterMaster(tempDirectory)
+            CreateClusterSlave(tempDirectory)
+            CreateClusterSearchHead(tempDirectory)
+        Else
+            CreateDistSearchApp(tempDirectory)
+        End If
+
         WriteHelpDocument()
 
         MsgBox("Successfully created New App")
 
 
 
+    End Sub
+
+    Public Sub CreateClusterSearchHead(ByVal tempDirectory As String)
+        Dim mainFolder As String = tempDirectory + "\ClusterSearchHead"
+        My.Computer.FileSystem.CreateDirectory(mainFolder)
+
+        Dim localFolder As String = mainFolder + "\local"
+        My.Computer.FileSystem.CreateDirectory(localFolder)
+        WriteAppFile(localFolder)
+        WriteClusterMasterSearchHead("ClusterSearchHead")
+
+        Dim metaFolder As String = mainFolder + "\meta"
+        My.Computer.FileSystem.CreateDirectory(metaFolder)
+        WriteMetaFile(metaFolder)
     End Sub
 
     Public Sub CreateClusterMaster(ByVal tempDirectory As String)
@@ -315,11 +335,11 @@ Public Class Form1
         Dim serverFile As String = deploymentFolder + "\deploymentclient.conf"
         file = My.Computer.FileSystem.OpenTextFileWriter(serverFile, True)
         file.WriteLine("[deployment-client]")
-        file.WriteLine("phoneHomeIntervalInSecs = " + txtPhoneHomeInterval.Text)
+        'file.WriteLine("phoneHomeIntervalInSecs = " + txtPhoneHomeInterval.Text)
         file.WriteLine("")
         file.WriteLine("[target-broker:deploymentServer]")
 
-        Dim master_uri As String = "targetURI = https://" + deploymentServerIp + ":8089"
+        Dim master_uri As String = "targetUri = " + deploymentServerIp + ":8089"
         file.WriteLine(master_uri)
 
         file.Close()
@@ -453,7 +473,7 @@ Public Class Form1
         'file.WriteLine("homePath.maxDataSizeMB = " + txtMaxMB.Text)
         file.WriteLine("")
 
-        file.WriteLine("[volume: primary]")
+        file.WriteLine("[volume:primary]")
         file.WriteLine("path = " + txtVolumePrimary.Text)
         'file.WriteLine("maxVolumeDataSizeMB = " + txtMaxMB.Text)
         file.WriteLine("")
@@ -489,7 +509,7 @@ Public Class Form1
         file.WriteLine("[_introspection]")
         file.WriteLine("homePath   = " + txtIntrospectionHomePath.Text)
         file.WriteLine("coldPath   = " + txtIntrospectionColdPath.Text)
-        file.WriteLine("thawedPath = " + txtInternalThawedPath.Text)
+        file.WriteLine("thawedPath = " + txtIntrospectionThawedPath.Text)
         'file.WriteLine("maxVolumeDataSizeMB = " + txtIntrospectionMB.Text)
         file.WriteLine("")
 
@@ -525,6 +545,20 @@ Public Class Form1
         lstIndexerIPs.Items.Clear()
     End Sub
 
+    Public Sub WriteClusterMasterSearchHead(ByVal appName As String)
+        Dim mainFolder As String = txtDeployLocation.Text
+        My.Computer.FileSystem.CreateDirectory(mainFolder)
+
+        Dim file As System.IO.StreamWriter
+        Dim serverFile As String = mainFolder + txtSiteName.Text + "\" + appName + "\local\" + "server.conf"
+
+        file = My.Computer.FileSystem.OpenTextFileWriter(serverFile, True)
+        file.WriteLine("[clustering]")
+        file.WriteLine("mode = searchhead")
+        file.WriteLine("master_uri = https://" + txtClusterMasterIP.Text + ":8089")
+        file.WriteLine("pass4SymmKey = " + txtSymmKeyForCluster.Text)
+        file.Close()
+    End Sub
     Public Sub WriteClusterMasterIndexFile(ByVal appName As String)
         Dim mainFolder As String = txtDeployLocation.Text
         My.Computer.FileSystem.CreateDirectory(mainFolder)
@@ -552,9 +586,11 @@ Public Class Form1
 
         file = My.Computer.FileSystem.OpenTextFileWriter(serverFile, True)
         file.WriteLine("[clustering]")
-        file.WriteLine("cluster_label = " + txtClusterLabel.Text)
+        file.WriteLine("master_uri = https://" + txtClusterMasterIP.Text + ":8089")
         file.WriteLine("mode = peer")
         file.WriteLine("pass4SymmKey = " + txtSymmKeyForCluster.Text)
+        file.WriteLine("")
+        file.WriteLine("[replication_port://8080]")
 
         file.Close()
     End Sub
@@ -595,7 +631,12 @@ Public Class Form1
         If chkUseDeploymentServer.Checked = True Then
             file.WriteLine("deployment_client")
         End If
-        file.WriteLine("DistributedSearch")
+        If chkSetUpClusterIndexing.Checked = True Then
+            file.WriteLine("ClusterSearchHead")
+        Else
+            file.WriteLine("DistributedSearch")
+        End If
+
         file.WriteLine("GuiSettings")
         If chkCreateLicenseServer.Checked = True Then
             file.WriteLine("license_client")
@@ -623,14 +664,20 @@ Public Class Form1
         '######################
 
         If chkCreateLicenseServer.Checked = True Then
-            file.WriteLine("App
-s to be installed on License Server")
+            file.WriteLine("Apps to be installed on License Server")
             If chkCreateLicenseServer.Checked = True Then
                 file.WriteLine("license_server")
             End If
             file.WriteLine("GuiSettings")
             file.WriteLine("")
         End If
+
+        file.WriteLine("Install Instructions")
+        file.WriteLine("1. Start Up License Server and Add License")
+        file.WriteLine("2. Start Up Master Node ")
+        file.WriteLine("3. Start Up Indexers")
+        file.WriteLine("4. Start Up Search Heads")
+        file.WriteLine("")
 
 
         file.Close()

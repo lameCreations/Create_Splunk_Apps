@@ -24,6 +24,8 @@ Partial Class Form1
     Private Sub InitializeComponent()
         TabControl1 = New TabControl()
         TabPage1 = New TabPage()
+        Label22 = New Label()
+        txtUITimeout = New TextBox()
         Label13 = New Label()
         txtDeployLocation = New TextBox()
         btnCreateApp = New Button()
@@ -104,6 +106,8 @@ Partial Class Form1
         Label6 = New Label()
         lstDefaultIndexes = New ListBox()
         TabPage7 = New TabPage()
+        Label23 = New Label()
+        txtClusterMasterIP = New TextBox()
         chkSetUpClusterIndexing = New CheckBox()
         txtSearchFactor = New TextBox()
         txtReplicationFactor = New TextBox()
@@ -115,8 +119,6 @@ Partial Class Form1
         Label17 = New Label()
         Label16 = New Label()
         Label15 = New Label()
-        Label22 = New Label()
-        txtUITimeout = New TextBox()
         TabControl1.SuspendLayout()
         TabPage1.SuspendLayout()
         TabPage2.SuspendLayout()
@@ -158,6 +160,23 @@ Partial Class Form1
         TabPage1.TabIndex = 0
         TabPage1.Text = "App Info"
         TabPage1.UseVisualStyleBackColor = True
+        ' 
+        ' Label22
+        ' 
+        Label22.AutoSize = True
+        Label22.Location = New Point(851, 46)
+        Label22.Name = "Label22"
+        Label22.Size = New Size(272, 20)
+        Label22.TabIndex = 6
+        Label22.Text = "Time Out Session For Web UI in Minutes"
+        ' 
+        ' txtUITimeout
+        ' 
+        txtUITimeout.Location = New Point(929, 69)
+        txtUITimeout.Name = "txtUITimeout"
+        txtUITimeout.Size = New Size(125, 27)
+        txtUITimeout.TabIndex = 5
+        txtUITimeout.Text = "120"
         ' 
         ' Label13
         ' 
@@ -230,7 +249,7 @@ Partial Class Form1
         txtLicenseServerIP.Name = "txtLicenseServerIP"
         txtLicenseServerIP.Size = New Size(223, 27)
         txtLicenseServerIP.TabIndex = 1
-        txtLicenseServerIP.Text = "192.168.0.128"
+        txtLicenseServerIP.Text = "192.168.0.130"
         ' 
         ' chkCreateLicenseServer
         ' 
@@ -303,7 +322,7 @@ Partial Class Form1
         txtDeploymentServer.Name = "txtDeploymentServer"
         txtDeploymentServer.Size = New Size(213, 27)
         txtDeploymentServer.TabIndex = 0
-        txtDeploymentServer.Text = "192.168.0.128"
+        txtDeploymentServer.Text = "192.168.0.130"
         ' 
         ' TabPage4
         ' 
@@ -398,7 +417,7 @@ Partial Class Form1
         ' 
         lstIndexerIPs.FormattingEnabled = True
         lstIndexerIPs.ItemHeight = 20
-        lstIndexerIPs.Items.AddRange(New Object() {"192.168.0.128"})
+        lstIndexerIPs.Items.AddRange(New Object() {"192.168.0.132", "192.168.0.133", "192.168.0.135"})
         lstIndexerIPs.Location = New Point(48, 219)
         lstIndexerIPs.Name = "lstIndexerIPs"
         lstIndexerIPs.Size = New Size(224, 244)
@@ -496,7 +515,7 @@ Partial Class Form1
         txtFishBucketMB.Name = "txtFishBucketMB"
         txtFishBucketMB.Size = New Size(156, 27)
         txtFishBucketMB.TabIndex = 58
-        txtFishBucketMB.Text = "10240"
+        txtFishBucketMB.Text = "1024"
         ' 
         ' txtAuditMB
         ' 
@@ -504,7 +523,7 @@ Partial Class Form1
         txtAuditMB.Name = "txtAuditMB"
         txtAuditMB.Size = New Size(156, 27)
         txtAuditMB.TabIndex = 58
-        txtAuditMB.Text = "10240"
+        txtAuditMB.Text = "1024"
         ' 
         ' txtTelemetryMB
         ' 
@@ -512,7 +531,7 @@ Partial Class Form1
         txtTelemetryMB.Name = "txtTelemetryMB"
         txtTelemetryMB.Size = New Size(156, 27)
         txtTelemetryMB.TabIndex = 60
-        txtTelemetryMB.Text = "10240"
+        txtTelemetryMB.Text = "1024"
         ' 
         ' txtIntrospectionMB
         ' 
@@ -520,7 +539,7 @@ Partial Class Form1
         txtIntrospectionMB.Name = "txtIntrospectionMB"
         txtIntrospectionMB.Size = New Size(156, 27)
         txtIntrospectionMB.TabIndex = 59
-        txtIntrospectionMB.Text = "10240"
+        txtIntrospectionMB.Text = "1024"
         ' 
         ' txtInternalMB
         ' 
@@ -528,7 +547,7 @@ Partial Class Form1
         txtInternalMB.Name = "txtInternalMB"
         txtInternalMB.Size = New Size(156, 27)
         txtInternalMB.TabIndex = 58
-        txtInternalMB.Text = "10240"
+        txtInternalMB.Text = "1024"
         ' 
         ' txtSummaryMB
         ' 
@@ -536,7 +555,7 @@ Partial Class Form1
         txtSummaryMB.Name = "txtSummaryMB"
         txtSummaryMB.Size = New Size(156, 27)
         txtSummaryMB.TabIndex = 57
-        txtSummaryMB.Text = "10240"
+        txtSummaryMB.Text = "1024"
         ' 
         ' txtHistoryMB
         ' 
@@ -544,7 +563,7 @@ Partial Class Form1
         txtHistoryMB.Name = "txtHistoryMB"
         txtHistoryMB.Size = New Size(156, 27)
         txtHistoryMB.TabIndex = 56
-        txtHistoryMB.Text = "10240"
+        txtHistoryMB.Text = "1024"
         ' 
         ' txtMainMB
         ' 
@@ -552,7 +571,7 @@ Partial Class Form1
         txtMainMB.Name = "txtMainMB"
         txtMainMB.Size = New Size(156, 27)
         txtMainMB.TabIndex = 55
-        txtMainMB.Text = "10240"
+        txtMainMB.Text = "1024"
         ' 
         ' Label14
         ' 
@@ -861,7 +880,7 @@ Partial Class Form1
         txtMaxMB.Name = "txtMaxMB"
         txtMaxMB.Size = New Size(112, 27)
         txtMaxMB.TabIndex = 14
-        txtMaxMB.Text = "1024"
+        txtMaxMB.Text = "10240"
         ' 
         ' Label8
         ' 
@@ -909,6 +928,8 @@ Partial Class Form1
         ' 
         ' TabPage7
         ' 
+        TabPage7.Controls.Add(Label23)
+        TabPage7.Controls.Add(txtClusterMasterIP)
         TabPage7.Controls.Add(chkSetUpClusterIndexing)
         TabPage7.Controls.Add(txtSearchFactor)
         TabPage7.Controls.Add(txtReplicationFactor)
@@ -927,6 +948,23 @@ Partial Class Form1
         TabPage7.TabIndex = 6
         TabPage7.Text = "Cluster Index"
         TabPage7.UseVisualStyleBackColor = True
+        ' 
+        ' Label23
+        ' 
+        Label23.AutoSize = True
+        Label23.Location = New Point(556, 249)
+        Label23.Name = "Label23"
+        Label23.Size = New Size(115, 20)
+        Label23.TabIndex = 12
+        Label23.Text = "Cluster Server IP"
+        ' 
+        ' txtClusterMasterIP
+        ' 
+        txtClusterMasterIP.Location = New Point(537, 279)
+        txtClusterMasterIP.Name = "txtClusterMasterIP"
+        txtClusterMasterIP.Size = New Size(213, 27)
+        txtClusterMasterIP.TabIndex = 11
+        txtClusterMasterIP.Text = "192.168.0.136"
         ' 
         ' chkSetUpClusterIndexing
         ' 
@@ -1024,23 +1062,6 @@ Partial Class Form1
         Label15.Size = New Size(94, 20)
         Label15.TabIndex = 0
         Label15.Text = "Cluster Label"
-        ' 
-        ' Label22
-        ' 
-        Label22.AutoSize = True
-        Label22.Location = New Point(851, 46)
-        Label22.Name = "Label22"
-        Label22.Size = New Size(272, 20)
-        Label22.TabIndex = 6
-        Label22.Text = "Time Out Session For Web UI in Minutes"
-        ' 
-        ' txtUITimeout
-        ' 
-        txtUITimeout.Location = New Point(929, 69)
-        txtUITimeout.Name = "txtUITimeout"
-        txtUITimeout.Size = New Size(125, 27)
-        txtUITimeout.TabIndex = 5
-        txtUITimeout.Text = "120"
         ' 
         ' Form1
         ' 
@@ -1163,4 +1184,6 @@ Partial Class Form1
     Friend WithEvents txtPhoneHomeInterval As TextBox
     Friend WithEvents Label22 As Label
     Friend WithEvents txtUITimeout As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents txtClusterMasterIP As TextBox
 End Class
